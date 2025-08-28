@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  ddns:
+    image: alpine:latest
+    container_name: cloudflare-ddns
+    restart: unless-stopped
+    volumes:
+      - ./update-dns.sh:/update-dns.sh:ro
+    environment:
+      CF_TOKEN:       "Token of full access to your domain defined in Cloudflare"
+      CF_ZONE_ID:     "Your domains zone id"
+      CF_RECORD_ID:   "Your record id"
+      CF_RECORD_NAME: "Your domain name"
+      SLEEP_INTERVAL: "30"
+    entrypoint: [ "sh", "/update-dns.sh" ]
